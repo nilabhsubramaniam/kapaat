@@ -1,0 +1,57 @@
+<div class="dashboard">
+  <div class="dashboard-header">
+    <h1>Admin Dashboard</h1>
+    <p class="subtitle">Welcome back! Here's what's happening today.</p>
+  </div>
+
+  <!-- Stats Grid -->
+  <div class="stats-grid">
+    <div class="stat-card" *ngFor="let stat of stats" [style.border-left-color]="stat.color">
+      <div class="stat-icon">{{ stat.icon }}</div>
+      <div class="stat-content">
+        <h3 class="stat-value">{{ stat.value | number }}</h3>
+        <p class="stat-title">{{ stat.title }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Activities -->
+  <div class="activities-section">
+    <div class="section-header">
+      <h2>Recent Activities</h2>
+      <button class="btn-link">View All</button>
+    </div>
+    <div class="activities-list">
+      <div class="activity-item" *ngFor="let activity of recentActivities">
+        <div class="activity-icon" [ngClass]="'activity-' + activity.type"></div>
+        <div class="activity-content">
+          <p class="activity-action">{{ activity.action }}</p>
+          <span class="activity-time">{{ activity.time }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions">
+    <h2>Quick Actions</h2>
+    <div class="actions-grid">
+      <button class="action-btn" routerLink="/users">
+        <span class="action-icon">👥</span>
+        <span>Manage Users</span>
+      </button>
+      <button class="action-btn" routerLink="/products">
+        <span class="action-icon">📦</span>
+        <span>Manage Products</span>
+      </button>
+      <button class="action-btn" routerLink="/orders">
+        <span class="action-icon">🛒</span>
+        <span>View Orders</span>
+      </button>
+      <button class="action-btn" routerLink="/settings">
+        <span class="action-icon">⚙️</span>
+        <span>Settings</span>
+      </button>
+    </div>
+  </div>
+</div>

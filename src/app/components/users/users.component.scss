@@ -1,0 +1,113 @@
+.users-page {
+  padding: 2rem;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+  }
+
+  .btn-primary {
+    background: #4f46e5;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background: #4338ca;
+    }
+  }
+}
+
+.users-table-container {
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead {
+    background: #f9fafb;
+    
+    tr th {
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: #374151;
+      border-bottom: 1px solid #e5e7eb;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid #f3f4f6;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: #f9fafb;
+      }
+
+      td {
+        padding: 1rem;
+        color: #1f2937;
+      }
+    }
+  }
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  &.badge-active {
+    background-color: #d1fae5;
+    color: #065f46;
+  }
+
+  &.badge-inactive {
+    background-color: #fee2e2;
+    color: #991b1b;
+  }
+
+  &.badge-role {
+    background-color: #dbeafe;
+    color: #1e40af;
+  }
+}
+
+.btn-action {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  font-size: 1.125rem;
+  transition: transform 0.2s;
+  margin: 0 0.25rem;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+
+  &.btn-delete:hover {
+    filter: brightness(0) saturate(100%) invert(28%) sepia(93%) saturate(3491%) hue-rotate(350deg);
+  }
+}
