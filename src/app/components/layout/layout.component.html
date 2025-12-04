@@ -37,9 +37,12 @@
       <div class="topbar-right">
         <button class="icon-btn">🔔</button>
         <button class="icon-btn">✉️</button>
-        <div class="user-menu">
+        <div class="user-menu" *ngIf="currentUser$ | async as user">
           <div class="user-avatar">👤</div>
-          <span class="user-name">Admin</span>
+          <span class="user-name">{{ user.username || 'Admin' }}</span>
+          <button class="logout-btn" (click)="logout()" title="Logout">
+            🚪
+          </button>
         </div>
       </div>
     </header>

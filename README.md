@@ -4,12 +4,14 @@ A modern, responsive admin panel built with Angular 21 that connects to a backen
 
 ## Features
 
+- 🔐 **Authentication** - Login with JWT token-based authentication
 - 📊 **Dashboard** - Overview with statistics and recent activities
 - 👥 **User Management** - View and manage users
 - 🎨 **Modern UI** - Clean, professional design with dark sidebar
 - 📱 **Responsive** - Works on desktop, tablet, and mobile devices
 - 🔄 **HTTP Service** - Ready-to-use API service for backend integration
 - 🚀 **Server-Side Rendering (SSR)** - Enabled for better performance
+- 🛡️ **Route Guards** - Protected routes with authentication
 
 ## Project Structure
 
@@ -20,9 +22,15 @@ kapaat/
 │   │   ├── components/
 │   │   │   ├── dashboard/      # Dashboard with stats & recent activities
 │   │   │   ├── layout/         # Main layout with sidebar & topbar
+│   │   │   ├── login/          # Login page
 │   │   │   └── users/          # User management component
 │   │   ├── services/
-│   │   │   └── api.service.ts  # HTTP service for backend API calls
+│   │   │   ├── api.service.ts  # HTTP service for backend API calls
+│   │   │   └── auth.service.ts # Authentication service
+│   │   ├── guards/
+│   │   │   └── auth.guard.ts   # Route guard for protected routes
+│   │   ├── interceptors/
+│   │   │   └── auth.interceptor.ts  # HTTP interceptor for JWT tokens
 │   │   ├── app.config.ts       # App configuration with HttpClient
 │   │   ├── app.routes.ts       # Route definitions
 │   │   ├── app.ts              # Root component
@@ -71,6 +79,47 @@ ng serve
 
 Navigate to `http://localhost:4200/`. The application will automatically reload when you change source files.
 
+## Authentication
+
+### Login
+
+The app includes a login page at `/login`. Users must authenticate before accessing protected routes.
+
+**Expected API Endpoint**: `POST http://localhost:8080/api/auth/login`
+
+**Request Body**:
+```json
+{
+  "username": "string",
+  "password": "string"
+}
+```
+
+**Expected Response**:
+```json
+{
+  "token": "jwt_token_here",
+  "user": {
+    "id": 1,
+    "username": "admin",
+    "email": "admin@example.com",
+    "role": "admin"
+  }
+}
+```
+
+The JWT token is automatically:
+- Stored in localStorage
+- Added to all subsequent API requests via Authorization header
+- Used for route protection
+
+### Logout
+
+Click the logout button (🚪) in the top-right corner to sign out. This will:
+- Clear the JWT token from localStorage
+- Redirect to the login page
+- Prevent access to protected routes
+
 ## Backend Configuration
 
 The application is configured to connect to a backend API at `http://localhost:8080/api`.
@@ -111,9 +160,12 @@ this.api.delete('users/1').subscribe(() => {
 
 ## Available Routes
 
-- `/` - Redirects to dashboard
-- `/dashboard` - Main dashboard with stats and activities
-- `/users` - User management page
+- `/login` - Login page (public)
+- `/` - Redirects to dashboard (protected)
+- `/dashboard` - Main dashboard with stats and activities (protected)
+- `/users` - User management page (protected)
+
+All routes except `/login` are protected and require authentication.
 
 ## Building
 

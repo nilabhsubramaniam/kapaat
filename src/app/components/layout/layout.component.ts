@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-layout',
@@ -11,6 +12,7 @@ import { RouterModule } from '@angular/router';
 })
 export class LayoutComponent {
   isSidebarCollapsed = false;
+  currentUser$ = this.authService.currentUser;
   
   menuItems = [
     { icon: '📊', label: 'Dashboard', route: '/dashboard', active: true },
@@ -21,6 +23,11 @@ export class LayoutComponent {
     { icon: '⚙️', label: 'Settings', route: '/settings', active: false }
   ];
 
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
   toggleSidebar(): void {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
@@ -29,5 +36,10 @@ export class LayoutComponent {
     this.menuItems.forEach((item, i) => {
       item.active = i === index;
     });
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }
