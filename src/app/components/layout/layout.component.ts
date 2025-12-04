@@ -1,16 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, MatIconModule],
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent {
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  
   isSidebarCollapsed = false;
   currentUser$ = this.authService.currentUser;
   
@@ -22,11 +26,6 @@ export class LayoutComponent {
     { icon: '📈', label: 'Analytics', route: '/analytics', active: false },
     { icon: '⚙️', label: 'Settings', route: '/settings', active: false }
   ];
-
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {}
 
   toggleSidebar(): void {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;

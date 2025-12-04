@@ -1,4 +1,4 @@
-.users-page {
+.products-page {
   padding: 2rem;
   max-width: 1400px;
   margin: 0 auto;
@@ -31,6 +31,7 @@
   background: white;
   border-radius: 0.75rem;
   padding: 1.5rem;
+  overflow: hidden;
 }
 
 .search-field {
@@ -39,8 +40,43 @@
   margin-bottom: 1.5rem;
 }
 
-.users-table {
+.table-wrapper {
+  overflow-x: auto;
+  overflow-y: auto;
   width: 100%;
+  max-height: calc(100vh - 350px);
+  
+  &::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+    
+    &:hover {
+      background: #555;
+    }
+  }
+}
+
+mat-paginator {
+  background: white;
+  border-top: 1px solid #e5e7eb;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+}
+
+.products-table {
+  width: 100%;
+  min-width: 1200px;
   background: white;
 
   th {
@@ -49,10 +85,12 @@
     font-size: 0.875rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    white-space: nowrap;
   }
 
   td {
     color: #1f2937;
+    padding: 12px 16px;
   }
 
   .mat-mdc-header-row {
@@ -64,51 +102,95 @@
       background-color: #f9fafb;
     }
   }
-}
-
-.email-cell {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-
-  .verified-icon {
-    color: #10b981;
-    font-size: 1.125rem;
-    width: 1.125rem;
-    height: 1.125rem;
+  
+  // Column width optimization
+  .mat-column-name {
+    min-width: 180px;
+    max-width: 200px;
+  }
+  
+  .mat-column-description {
+    min-width: 250px;
+    max-width: 300px;
+    
+    td {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  
+  .mat-column-product_type {
+    min-width: 120px;
+  }
+  
+  .mat-column-state_origin {
+    min-width: 120px;
+  }
+  
+  .mat-column-saree_type {
+    min-width: 120px;
+  }
+  
+  .mat-column-base_price {
+    min-width: 100px;
+  }
+  
+  .mat-column-discount_percentage {
+    min-width: 100px;
+  }
+  
+  .mat-column-fabric {
+    min-width: 100px;
+  }
+  
+  .mat-column-weave_type {
+    min-width: 120px;
+  }
+  
+  .mat-column-stock_quantity {
+    min-width: 120px;
+  }
+  
+  .mat-column-region {
+    min-width: 100px;
+  }
+  
+  .mat-column-actions {
+    min-width: 80px;
+    width: 80px;
+    text-align: center;
   }
 }
 
-// Material Chips styling for roles and status
-mat-chip {
-  font-size: 0.75rem;
+// Stock quantity color coding
+.stock-danger {
+  color: #dc2626;
+  font-weight: 600;
+  padding: 4px 8px;
+  background-color: #fee2e2;
+  border-radius: 4px;
+}
+
+.stock-surplus {
+  color: #16a34a;
+  font-weight: 600;
+  padding: 4px 8px;
+  background-color: #dcfce7;
+  border-radius: 4px;
+}
+
+.stock-normal {
+  color: #1f2937;
   font-weight: 500;
-  min-height: 24px;
-  padding: 0 8px;
+}
 
-  &.badge-admin {
-    background-color: #fce7f3 !important;
-    color: #be185d !important;
-  }
+// Menu styling
+.delete-menu-item {
+  color: #ef4444;
 
-  &.badge-moderator {
-    background-color: #dbeafe !important;
-    color: #1e40af !important;
-  }
-
-  &.badge-user {
-    background-color: #f3f4f6 !important;
-    color: #374151 !important;
-  }
-
-  &.status-active {
-    background-color: #d1fae5 !important;
-    color: #065f46 !important;
-  }
-
-  &.status-inactive {
-    background-color: #fee2e2 !important;
-    color: #991b1b !important;
+  mat-icon {
+    color: #ef4444;
   }
 }
 
@@ -157,16 +239,6 @@ mat-chip {
     margin: 0.5rem 0;
   }
 
-  .spinner {
-    width: 3rem;
-    height: 3rem;
-    border: 4px solid #e5e7eb;
-    border-top-color: #4f46e5;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin-bottom: 1rem;
-  }
-
   button {
     margin-top: 1rem;
   }
@@ -176,15 +248,9 @@ mat-chip {
   color: #ef4444;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 // Responsive design
 @media (max-width: 768px) {
-  .users-page {
+  .products-page {
     padding: 1rem;
   }
 
@@ -204,7 +270,15 @@ mat-chip {
 
   .table-container {
     padding: 1rem;
-    overflow-x: auto;
+    border-radius: 0.5rem;
+  }
+  
+  .products-table {
+    font-size: 0.875rem;
+    
+    th, td {
+      padding: 8px 12px;
+    }
   }
 }
 

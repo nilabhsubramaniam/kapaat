@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 export interface LoginRequest {
-  username: string;
+  email: string;
   password: string;
 }
 
@@ -32,8 +33,11 @@ export class AuthService {
   private currentUserSubject: BehaviorSubject<User | null>;
   public currentUser: Observable<User | null>;
   private tokenKey = 'auth_token';
+  private platformId = inject(PLATFORM_ID);
+  private isBrowser: boolean;
 
   constructor(private http: HttpClient) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
     const storedUser = this.getStoredUser();
     this.currentUserSubject = new BehaviorSubject<User | null>(storedUser);
     this.currentUser = this.currentUserSubject.asObservable();
@@ -44,6 +48,7 @@ export class AuthService {
   }
 
   public get token(): string | null {
+    if (!this.isBrowser) return null;
     return localStorage.getItem(this.tokenKey);
   }
 
@@ -51,7 +56,7 @@ export class AuthService {
     return this.http.post<LoginResponse>(`${environment.apiUrl}/auth/login`, credentials)
       .pipe(
         tap(response => {
-          if (response.token) {
+          if (response.token && this.isBrowser) {
             localStorage.setItem(this.tokenKey, response.token);
             localStorage.setItem('current_user', JSON.stringify(response.user));
             this.currentUserSubject.next(response.user);
@@ -61,16 +66,22 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem(this.tokenKey);
-    localStorage.removeItem('current_user');
+    if (this.isBrowser) {
+      localStorage.removeItem(this.tokenKey);
+      localStorage.removeItem('current_user');
+    }
     this.currentUserSubject.next(null);
   }
 
   isLoggedIn(): boolean {
-    return !!this.token;
+    if (!this.isBrowser) return false;
+    const token = localStorage.getItem(this.tokenKey);
+    return !!token;
   }
 
   private getStoredUser(): User | null {
+    if (!this.isBrowser) return null;
+    
     const userStr = localStorage.getItem('current_user');
     if (userStr) {
       try {

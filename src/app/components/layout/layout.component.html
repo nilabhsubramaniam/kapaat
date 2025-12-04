@@ -13,13 +13,13 @@
         class="nav-item"
         (click)="setActive(i)"
       >
-        <span class="nav-icon">{{ item.icon }}</span>
+        <span class="nav-icon"><mat-icon>{{ item.icon }}</mat-icon></span>
         <span class="nav-label" *ngIf="!isSidebarCollapsed">{{ item.label }}</span>
       </a>
     </nav>
 
     <button class="toggle-btn" (click)="toggleSidebar()">
-      {{ isSidebarCollapsed ? '→' : '←' }}
+      <mat-icon>{{ isSidebarCollapsed ? 'chevron_right' : 'chevron_left' }}</mat-icon>
     </button>
   </aside>
 
@@ -29,19 +29,19 @@
     <header class="topbar">
       <div class="topbar-left">
         <button class="menu-toggle" (click)="toggleSidebar()">
-          ☰
+          <mat-icon>menu</mat-icon>
         </button>
         <h2>Admin Panel</h2>
       </div>
       
       <div class="topbar-right">
-        <button class="icon-btn">🔔</button>
-        <button class="icon-btn">✉️</button>
+        <button class="icon-btn"><mat-icon>notifications</mat-icon></button>
+        <button class="icon-btn"><mat-icon>mail</mat-icon></button>
         <div class="user-menu" *ngIf="currentUser$ | async as user">
-          <div class="user-avatar">👤</div>
+          <div class="user-avatar"><mat-icon>account_circle</mat-icon></div>
           <span class="user-name">{{ user.username || 'Admin' }}</span>
           <button class="logout-btn" (click)="logout()" title="Logout">
-            🚪
+            <mat-icon>logout</mat-icon>
           </button>
         </div>
       </div>
